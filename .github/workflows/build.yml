@@ -13,11 +13,18 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - name: Accept Android licenses
-        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
+      - uses: android-actions/setup-android@v3
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.7
+      - name: Show files
+        run: |
+          ls -la
+          ls -la app
+          echo "---- settings.gradle ----"
+          cat settings.gradle
+          echo "---- app/build.gradle ----"
+          cat app/build.gradle
       - name: Build debug APK
         run: gradle assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
